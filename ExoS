@@ -1,0 +1,383 @@
+local MainGui = Instance.new("ScreenGui")
+local MainTop = Instance.new("ImageLabel")
+local UiName = Instance.new("TextLabel")
+local Main = Instance.new("ImageLabel")
+local CatList = Instance.new("ImageLabel")
+local CategoryList = Instance.new("Frame")
+local Layout = Instance.new("UIListLayout")
+
+MainGui.Name = "ExoS Hub"
+MainGui.Parent = game:GetService("CoreGui")
+
+MainTop.Name = "MainTop"
+MainTop.Parent = MainGui
+MainTop.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MainTop.BackgroundTransparency = 1.000
+MainTop.Position = UDim2.new(0.113956466, 0, 0.150557622, 0)
+MainTop.Size = UDim2.new(0, 490, 0, 41)
+MainTop.ZIndex = 10
+MainTop.Image = "rbxassetid://3570695787"
+MainTop.ImageColor3 = Color3.fromRGB(43, 43, 43)
+MainTop.ScaleType = Enum.ScaleType.Slice
+MainTop.SliceCenter = Rect.new(100, 100, 100, 100)
+MainTop.SliceScale = 0.060
+
+UiName.Name = "Untitled"
+UiName.Parent = MainTop
+UiName.BackgroundColor3 = Color3.fromRGB(67, 67, 67)
+UiName.BackgroundTransparency = 1.000
+UiName.BorderSizePixel = 0
+UiName.Position = UDim2.new(0.0244897958, 0, 0, 0)
+UiName.Size = UDim2.new(0, 478, 0, 41)
+UiName.ZIndex = 11
+UiName.Font = Enum.Font.SourceSans
+UiName.Text = "Geb's Hub"
+UiName.TextColor3 = Color3.fromRGB(181, 181, 181)
+UiName.TextSize = 29.000
+UiName.TextXAlignment = Enum.TextXAlignment.Left
+
+Main.Name = "Main"
+Main.Parent = MainTop
+Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Main.BackgroundTransparency = 1.000
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0, 0, 0.414634138, 0)
+Main.Size = UDim2.new(0, 490, 0, 355)
+Main.Image = "rbxassetid://3570695787"
+Main.ImageColor3 = Color3.fromRGB(38, 38, 38)
+Main.ScaleType = Enum.ScaleType.Slice
+Main.SliceCenter = Rect.new(100, 100, 100, 100)
+Main.SliceScale = 0.050
+
+CatList.Name = "CatList"
+CatList.Parent = MainTop
+CatList.BackgroundColor3 = Color3.fromRGB(85, 85, 85)
+CatList.BackgroundTransparency = 1.000
+CatList.BorderSizePixel = 0
+CatList.Position = UDim2.new(0, 0, 0.414634138, 0)
+CatList.Size = UDim2.new(0, 134, 0, 355)
+CatList.ZIndex = 2
+CatList.Image = "rbxassetid://3570695787"
+CatList.ImageColor3 = Color3.fromRGB(45, 45, 45)
+CatList.ScaleType = Enum.ScaleType.Slice
+CatList.SliceCenter = Rect.new(100, 100, 100, 100)
+CatList.SliceScale = 0.050
+
+CategoryList.Name = "CategoryList"
+CategoryList.Parent = CatList
+CategoryList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CategoryList.BackgroundTransparency = 1.000
+CategoryList.BorderSizePixel = 0
+CategoryList.Position = UDim2.new(0, 0, 0.067605637, 0)
+CategoryList.Size = UDim2.new(1, 0, 1, -25)
+CategoryList.ZIndex = 3
+
+Layout.Name = "Layout"
+Layout.Parent = CategoryList
+Layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+local library = {}
+
+local currentcategory = nil
+local currentcategorybutton = nil
+
+-- Functions
+
+function library:closegui()
+	MainGui:Destroy()
+end
+
+function library:createbutton(name, category, callback)
+	local Button = Instance.new("TextButton")
+	local Image = Instance.new("ImageLabel")
+	local ImageLabel = Instance.new("ImageLabel")
+
+	Button.Name = name
+	Button.Parent = category
+	Button.BackgroundColor3 = Color3.fromRGB(64, 62, 81)
+	Button.BackgroundTransparency = 1.000
+	Button.BorderColor3 = Color3.fromRGB(130, 203, 255)
+	Button.BorderSizePixel = 0
+	Button.Size = UDim2.new(0.962750733, 0, 5.88687854e-09, 30)
+	Button.ZIndex = 4
+	Button.Font = Enum.Font.SourceSans
+	Button.Text = name
+	Button.TextColor3 = Color3.fromRGB(220, 220, 243)
+	Button.TextSize = 19.000
+	Button.TextWrapped = true
+
+	Image.Name = "Image"
+	Image.Parent = Button
+	Image.AnchorPoint = Vector2.new(0.5, 0.5)
+	Image.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Image.BackgroundTransparency = 1.000
+	Image.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Image.Size = UDim2.new(1, 0, 1, 0)
+	Image.ZIndex = 3
+	Image.Image = "rbxassetid://3570695787"
+	Image.ImageColor3 = Color3.fromRGB(54, 54, 54)
+	Image.ScaleType = Enum.ScaleType.Slice
+	Image.SliceCenter = Rect.new(100, 100, 100, 100)
+	Image.SliceScale = 0.070
+
+	ImageLabel.Parent = Button
+	ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ImageLabel.BackgroundTransparency = 1.000
+	ImageLabel.Position = UDim2.new(0.92578578, 0, 0.0999999791, 0)
+	ImageLabel.Size = UDim2.new(0, 24, 0, 24)
+	ImageLabel.ZIndex = 5
+	ImageLabel.Image = "http://www.roblox.com/asset/?id=5771838357"
+
+	Button.Activated:Connect(function()
+		local tweenimage = Image
+
+		tweenimage.ImageColor3 = Color3.fromRGB(93, 94, 126)
+		local value = Color3.fromRGB(54, 54, 54)
+
+		game:GetService('TweenService'):Create(tweenimage, TweenInfo.new(0.2), {ImageColor3 = value}):Play()
+
+		callback()
+	end)
+
+	return Button
+end
+
+function library:createtogglebutton(name, category, callback)
+	local ToggleButton = Instance.new("TextButton")
+	local Image_2 = Instance.new("ImageLabel")
+	local ImageLabel_2 = Instance.new("ImageLabel")
+
+	ToggleButton.Name = name
+	ToggleButton.Parent = category
+	ToggleButton.BackgroundColor3 = Color3.fromRGB(64, 62, 81)
+	ToggleButton.BackgroundTransparency = 1.000
+	ToggleButton.BorderColor3 = Color3.fromRGB(130, 203, 255)
+	ToggleButton.BorderSizePixel = 0
+	ToggleButton.Position = UDim2.new(0, 0, 0.101851851, 0)
+	ToggleButton.Size = UDim2.new(0.962750733, 0, 5.88687854e-09, 30)
+	ToggleButton.ZIndex = 4
+	ToggleButton.Font = Enum.Font.SourceSans
+	ToggleButton.Text = name
+	ToggleButton.TextColor3 = Color3.fromRGB(220, 220, 243)
+	ToggleButton.TextSize = 19.000
+	ToggleButton.TextWrapped = true
+
+	Image_2.Name = "Image"
+	Image_2.Parent = ToggleButton
+	Image_2.AnchorPoint = Vector2.new(0.5, 0.5)
+	Image_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Image_2.BackgroundTransparency = 1.000
+	Image_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Image_2.Size = UDim2.new(1, 0, 1, 0)
+	Image_2.ZIndex = 3
+	Image_2.Image = "rbxassetid://3570695787"
+	Image_2.ImageColor3 = Color3.fromRGB(54, 54, 54)
+	Image_2.ScaleType = Enum.ScaleType.Slice
+	Image_2.SliceCenter = Rect.new(100, 100, 100, 100)
+	Image_2.SliceScale = 0.070
+
+	ImageLabel_2.Parent = ToggleButton
+	ImageLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ImageLabel_2.BackgroundTransparency = 1.000
+	ImageLabel_2.Position = UDim2.new(0.92578578, 0, 0.0999999791, 0)
+	ImageLabel_2.Size = UDim2.new(0, 24, 0, 24)
+	ImageLabel_2.ZIndex = 5
+	ImageLabel_2.Image = "http://www.roblox.com/asset/?id=3120636243"
+	ImageLabel_2.ImageColor3 = Color3.fromRGB(255, 255, 255)
+
+	local toggled = false
+
+	ToggleButton.Activated:Connect(function()
+		local tweenimage = Image_2
+
+		tweenimage.ImageColor3 = Color3.fromRGB(93, 94, 126)
+		local value = Color3.fromRGB(54, 54, 54)
+		game:GetService('TweenService'):Create(tweenimage, TweenInfo.new(0.2), {ImageColor3 = value}):Play()
+
+
+
+		if toggled == false then
+			toggled = true
+
+			local totween = ImageLabel_2
+			local value = Color3.fromRGB(17, 255, 0)
+			game:GetService('TweenService'):Create(totween, TweenInfo.new(0.2), {ImageColor3 = value}):Play()
+		else
+			toggled = false
+
+			local totween = ImageLabel_2
+			local value = Color3.fromRGB(255, 255, 255)
+			game:GetService('TweenService'):Create(totween, TweenInfo.new(0.2), {ImageColor3 = value}):Play()
+		end
+
+		callback(toggled)
+	end)
+
+	return ToggleButton
+end
+
+function library:createsplitter(name, category)
+	local image_2 = Instance.new("ImageLabel")
+	local DefaultSplitter = Instance.new("TextLabel")
+
+	DefaultSplitter.Name = name
+	DefaultSplitter.Parent = category
+	DefaultSplitter.BackgroundColor3 = Color3.fromRGB(93, 94, 126)
+	DefaultSplitter.BackgroundTransparency = 1.000
+	DefaultSplitter.BorderSizePixel = 0
+	DefaultSplitter.Position = UDim2.new(0, 0, 0.203703701, 0)
+	DefaultSplitter.Size = UDim2.new(0.962750733, 0, 0, 34)
+	DefaultSplitter.ZIndex = 4
+	DefaultSplitter.Font = Enum.Font.SourceSans
+	DefaultSplitter.Text = name
+	DefaultSplitter.TextColor3 = Color3.fromRGB(255, 255, 255)
+	DefaultSplitter.TextSize = 21.000
+
+	image_2.Name = "image"
+	image_2.Parent = DefaultSplitter
+	image_2.AnchorPoint = Vector2.new(0.5, 0.5)
+	image_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	image_2.BackgroundTransparency = 1.000
+	image_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+	image_2.Size = UDim2.new(1, 0, 1, 0)
+	image_2.ZIndex = 3
+	image_2.Image = "rbxassetid://3570695787"
+	image_2.ImageColor3 = Color3.fromRGB(79, 81, 103)
+	image_2.ScaleType = Enum.ScaleType.Slice
+	image_2.SliceCenter = Rect.new(100, 100, 100, 100)
+	image_2.SliceScale = 0.070
+end
+
+function library:createcategory(name)
+	local CategoryButton = Instance.new("TextButton")
+	local image = Instance.new("ImageLabel")
+	local category = Instance.new("ScrollingFrame")
+	local UIListLayout = Instance.new("UIListLayout")
+
+	CategoryButton.Name = name
+	CategoryButton.Parent = CategoryList
+	CategoryButton.BackgroundColor3 = Color3.fromRGB(85, 85, 127)
+	CategoryButton.BackgroundTransparency = 1.000
+	CategoryButton.BorderSizePixel = 0
+	CategoryButton.Size = UDim2.new(0, 134, 0, 31)
+	CategoryButton.ZIndex = 5
+	CategoryButton.Font = Enum.Font.SourceSans
+	CategoryButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	CategoryButton.TextSize = 16.000
+	CategoryButton.TextStrokeColor3 = Color3.fromRGB(115, 115, 115)
+	CategoryButton.Text = name
+
+	image.Name = "image"
+	image.Parent = CategoryButton
+	image.Active = true
+	image.AnchorPoint = Vector2.new(0.5, 0.5)
+	image.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	image.BackgroundTransparency = 1.000
+	image.Position = UDim2.new(0.5, 0, 0.5, 0)
+	image.Selectable = true
+	image.Size = UDim2.new(1, 0, 1, 0)
+	image.ZIndex = 4
+	image.Image = "rbxassetid://3570695787"
+	image.ImageColor3 = Color3.fromRGB(85, 85, 127)
+	image.ScaleType = Enum.ScaleType.Slice
+	image.SliceCenter = Rect.new(100, 100, 100, 100)
+	image.SliceScale = 0.050
+	image.ImageTransparency = 1
+
+	category.Parent = MainTop
+	category.Active = true
+	category.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	category.BackgroundTransparency = 1.000
+	category.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	category.BorderSizePixel = 0
+	category.Position = UDim2.new(0.285714298, 0, 1.17073131, 0)
+	category.Size = UDim2.new(0, 349, 0, 317)
+	category.ZIndex = 5
+	category.CanvasSize = UDim2.new(0, 0, 20, 0)
+	category.HorizontalScrollBarInset = Enum.ScrollBarInset.Always
+	category.ScrollBarThickness = 10
+	category.Visible = false
+
+	UIListLayout.Parent = category
+	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	UIListLayout.Padding = UDim.new(0, 3)
+
+	local function equip()
+		if currentcategory ~= nil then
+			currentcategory.Visible = false
+		end
+
+		-- Tween
+
+		if currentcategorybutton ~= nil then
+			local tweenimage = currentcategorybutton:FindFirstChild("image")
+			local value = 1
+			game:GetService('TweenService'):Create(tweenimage, TweenInfo.new(0.2), {ImageTransparency = value}):Play()
+
+			tweenimage = image
+			value = 0
+			game:GetService('TweenService'):Create(tweenimage, TweenInfo.new(0.2), {ImageTransparency = value}):Play()
+			category.Visible = true
+		else
+			image.ImageTransparency = 0
+		end
+
+		category.Visible = true
+		currentcategory = category
+		currentcategorybutton = CategoryButton
+	end	
+
+	if currentcategory == nil then
+		equip()
+	end
+
+	CategoryButton.Activated:Connect(function()
+		equip()
+	end)
+
+	return category
+end
+
+function library:setuiname(name)
+	UiName.Text = name
+end
+
+-- Dragging
+
+local UIS = game:GetService('UserInputService')
+local whattodrag = MainTop
+local dragToggle = nil
+local dragSpeed = 0.25
+local dragStart = nil
+local startPos = nil
+
+local function updateInput(input)
+	local delta = input.Position - dragStart
+	local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+
+	game:GetService('TweenService'):Create(whattodrag, TweenInfo.new(dragSpeed), {Position = position}):Play()
+end
+
+whattodrag.InputBegan:Connect(function(input)
+	if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+		dragToggle = true
+		dragStart = input.Position
+		startPos = whattodrag.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragToggle = false
+			end
+		end)
+	end
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		if dragToggle then
+			updateInput(input)
+		end
+	end
+end)
+
+return library
