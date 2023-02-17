@@ -1,0 +1,139 @@
+local speed = 4
+
+local Configure = {
+    CharacterDeletion = true,
+    HeadDeletion = true,
+    PermaDeath = true,
+
+    -- Hat Stuff
+
+    BlockHats = true
+}
+
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local RunService = game:GetService("RunService")
+local InputService = game:GetService("UserInputService")
+
+local Player = Players.LocalPlayer
+local Character = Player.Character
+
+local MainPart = Instance.new("Part")
+MainPart.CFrame = CFrame.new(Character.Humanoid.RootPart.Position)
+MainPart.Transparency = 1
+MainPart.Anchored = true
+
+if Configure.PermaDeath then
+    Player.Character = nil
+    Player.Character = Character
+    wait(Players.RespawnTime+.05)
+end
+
+if Configure.CharacterDeletion then
+    for _,v in pairs(Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Name ~= "Head" then
+            v:Destroy()
+        end
+    end
+end
+
+if Configure.HeadDeletion then
+    Character:FindFirstChild("Head"):Destroy()
+end
+
+if Configure.BlockHats then
+    for _,v in pairs(Character:GetChildren()) do
+        if v:IsA("Accessory") then
+            local han = v:FindFirstChild("Handle")
+            local mesh = hand:FindFirstChild("Mesh") or hand:FindFirstChild("SpecialMesh")
+
+            if mesh then
+                mesh:Destroy()
+            end
+        end
+    end
+end
+
+local hats = {}
+
+for _,v in pairs(Character:GetChildren()) do
+    if v:IsA("Accessory") then
+        local han = v:FindFirstChild("Handle")
+        
+        table.insert(hats, han)
+    end
+end
+
+function swait()
+    RunService.HeartBeat:Wait()
+end
+
+MainPart.Parent = workspace
+
+for _,hat in hats do
+    task.spawn(function()
+        -- Properties
+        hat.Transparency = 0.7
+        hat.CanCollide = false
+        hat.Massless = true
+
+        local bp = Instance.new("BodyPosition")
+        bp.Position = MainPart.CFrame.Position
+
+        bp.Parent = hat
+
+        while true do
+            swait()
+            bp.Position = MainPart.CFrame.Position
+            hat.RotVelocity = Vector3.new(9e12,9e12,9e12)
+        end
+    end)
+end
+
+-- here change camera to view MainPart
+
+local movement = Vector3.new(0, 0, 0) -- 
+
+InputService.InputBegan:Connect(function(inp, gamep)
+    if gamep == false then
+        if inp == Enum.KeyCode.W then
+            movement.Z = 1
+        end
+        if inp == Enum.KeyCode.S then
+            movement.Z = -1
+        end
+
+        if inp == Enum.KeyCode.A then
+            movement.X = -1
+        end
+        if inp == Enum.KeyCode.D then
+            movement.Z = 1
+        end
+    end
+end)
+
+InputService.InputEnded:Connect(function(inp, gamep)
+    if gamep == false then
+        if inp == Enum.KeyCode.W then
+            movement.Z = 0
+        end
+        if inp == Enum.KeyCode.S then
+            movement.Z = 0
+        end
+
+        if inp == Enum.KeyCode.A then
+            movement.X = 0
+        end
+        if inp == Enum.KeyCode.D then
+            movement.Z = 0
+        end
+    end
+end)
+
+RunService.HeartBeat:Connect(function()
+
+    MainPart.CFrame = (MainPart.CFrame.Position + ((workspace.CurrentCamera.CFrame.LookVector) * (movement * speed)))
+
+end)
+
+
